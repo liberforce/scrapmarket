@@ -6,10 +6,12 @@ name = "pypi"
 [packages]
 requests = "*"
 python-dotenv = "*"
+requests-oauthlib = "*"
+beautifulsoup4 = "*"
 
 [dev-packages]
 black = "*"
 pyflakes = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.10"
