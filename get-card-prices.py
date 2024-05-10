@@ -15,6 +15,10 @@ def normalize_mtg_set(setname):
     pass
 
 
+def is_article_row(tag) -> bool:
+    return tag.has_attr("id") and tag.get("id").startswith("articleRow")
+
+
 def get_product(client, url):
     method = "GET"
     payload = {"sellerCountry": 12, "language": 2, "minCondition": 2}
@@ -43,8 +47,10 @@ def get_product(client, url):
         f.write(result.text)
 
     soup = BeautifulSoup(result.text, features="html.parser")
-    found = soup.find("section", id="table")
-    print(found.prettify())
+    matches = soup.find_all(is_article_row)
+
+    for match in matches:
+        print(match.prettify())
 
 
 class MtgSetId(Enum):
