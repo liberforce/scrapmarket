@@ -1,4 +1,5 @@
 #! /bin/env python3
+import re
 from enum import Enum
 import dotenv
 import logging
@@ -47,7 +48,7 @@ def get_product(client, url):
         f.write(result.text)
 
     soup = BeautifulSoup(result.text, features="html.parser")
-    matches = soup.find_all(is_article_row)
+    matches = soup.find_all(id=re.compile(r"articleRow\d+"))
 
     for match in matches:
         print(match.prettify())
