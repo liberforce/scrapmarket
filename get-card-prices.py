@@ -1,12 +1,11 @@
 #! /bin/env python3
 from pprint import pprint
 import re
-from enum import Enum
 import dotenv
 import logging
 import sys
 from scrapmarket.client import Client
-from scrapmarket.entities import products, games
+from scrapmarket.entities import products, games, sets
 
 from bs4 import BeautifulSoup
 
@@ -105,10 +104,6 @@ def interpret_product_table(product_name: str, table: list[list]) -> dict[dict, 
     return product_by_sellers
 
 
-class MtgSetId(Enum):
-    ONS = "Onslaught"
-
-
 def normalize_product_name(product_name: str):
     return product_name.title().replace(" ", "-")
 
@@ -116,7 +111,7 @@ def normalize_product_name(product_name: str):
 def get_product_url(
     product_type: products.ProductType,
     product_name: str,
-    set_id: MtgSetId,  # FIXME
+    set_id: sets.MtgSetId,  # FIXME
     game: games.Game | None = None,
 ) -> str:
     if game is None:
@@ -142,7 +137,7 @@ def main():
     url = get_product_url(
         products.ProductType.CARD,
         product_name=product_name,  # TODO: use a dataclass with properties to normalize
-        set_id=MtgSetId.ONS,
+        set_id=sets.MtgSetId.ONS,
     )
     raw_product_table = get_product_table(client, url)
     product_by_sellers = interpret_product_table(
