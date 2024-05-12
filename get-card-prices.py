@@ -5,7 +5,8 @@ import dotenv
 import logging
 import sys
 from scrapmarket.client import Client
-from scrapmarket.entities import products, games, sets
+from scrapmarket.domain.entities import products, games, expansions
+from scrapmarket.repositories import ExpansionRepository
 
 from bs4 import BeautifulSoup
 
@@ -111,7 +112,7 @@ def normalize_product_name(product_name: str):
 def get_product_url(
     product_type: products.ProductType,
     product_name: str,
-    set_id: sets.MtgSetId,  # FIXME
+    expansion_id: expansions.ExpansionId,
     game: games.Game | None = None,
 ) -> str:
     if game is None:
@@ -123,7 +124,7 @@ def get_product_url(
             f"/{game.name.value}"
             f"/Products"
             f"/{product_type.value}"
-            f"/{set_id.value}"
+            f"/{expansion_id.value}"
             f"/{normalize_product_name(product_name)}"
         )
 
@@ -134,10 +135,12 @@ def main():
     dotenv.load_dotenv()
     client = Client()
     product_name = "tribal golem"
+    repo = ExpansionRepository()
+    onslaught = repo.get_by_id(expansions.ExpansionId.ONS)
     url = get_product_url(
         products.ProductType.CARD,
         product_name=product_name,  # TODO: use a dataclass with properties to normalize
-        set_id=sets.MtgSetId.ONS,
+        expansion_id=onslaught.id,
     )
     raw_product_table = get_product_table(client, url)
     product_by_sellers = interpret_product_table(
