@@ -6,7 +6,7 @@ import logging
 import sys
 from scrapmarket.client import Client
 from scrapmarket.domain.entities import products, games, expansions
-from scrapmarket.repositories import ExpansionRepository
+from scrapmarket.infrastructure.repositories import ExpansionRepository
 
 from bs4 import BeautifulSoup
 
