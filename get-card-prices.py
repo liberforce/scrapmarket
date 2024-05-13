@@ -13,10 +13,6 @@ from bs4 import BeautifulSoup
 logging.basicConfig(level=logging.INFO)
 
 
-def normalize_mtg_set(setname):
-    pass
-
-
 def is_article_row(tag) -> bool:
     return tag.has_attr("id") and tag.get("id").startswith("articleRow")
 
