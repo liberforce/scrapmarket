@@ -1,0 +1,1 @@
+from .get_product_offers import get_product_offers_use_case as get_product_offers
