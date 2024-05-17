@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from .expansions import ExpansionEntity
-from .games import Game
+from .games import GameEntity
 
 
 class ProductType(Enum):
@@ -41,10 +41,10 @@ class ProductEntity:
 
     def guess_url(
         self,
-        game: Game | None = None,
+        game: GameEntity | None = None,
     ) -> str:
         if game is None:
-            game = Game()
+            game = GameEntity()
 
         if self.type == ProductType.CARD:
             return (

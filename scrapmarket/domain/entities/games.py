@@ -4,7 +4,7 @@ from enum import Enum
 
 
 @dataclass
-class Game:
+class GameEntity:
     class Name(Enum):
         MAGIC = "Magic"
 
