@@ -17,13 +17,13 @@ def main():
     with open("fastlands.json") as fp:
         products_data = json.load(fp)
 
-    products = use_cases.search_products(client, products_data)
+    products = use_cases.search_products(client, products_data, should_raise=True)
     assert all(products), products
 
     multiproduct_offers = use_cases.get_multiproduct_offers(client, products)
 
     with open("fastlands-offers.json", "w") as fp:
-        json.dump(multiproduct_offers, fp)
+        json.dump(multiproduct_offers, fp, indent=4, sort_keys=True)
 
 
 if __name__ == "__main__":

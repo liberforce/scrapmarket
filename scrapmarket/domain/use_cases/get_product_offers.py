@@ -9,7 +9,7 @@ from scrapmarket.domain.entities import products
 from .common import HEADERS, PAYLOAD, SLEEP_TIME
 
 
-def _get_product_table(client, url):
+def _get_product_offers_table(client, url):
     method = "GET"
     result = client.send_request(method, url, headers=HEADERS, params=PAYLOAD)
 
@@ -30,7 +30,7 @@ def _get_product_table(client, url):
     return rows
 
 
-def _interpret_product_row(product_name: str, row: list) -> dict[str, list]:
+def _interpret_product_offers_row(product_name: str, row: list) -> dict:
     fields = {}
     fields["sales"] = row.pop(0)
 
@@ -48,44 +48,36 @@ def _interpret_product_row(product_name: str, row: list) -> dict[str, list]:
     fields["price"] = row.pop(-1)
     assert "€" in fields["price"]
 
-    seller = {
-        "name": fields["seller_name"],
-        "sales": fields["sales"],
+    offer = {
+        "seller": fields["seller_name"],
+        "product_name": product_name,
+        "grading": fields["grading"],
+        "price": fields["price"],
+        "quantity": fields["quantity"],
     }
-    offers = [
-        {
-            "product_name": product_name,
-            "grading": fields["grading"],
-            "price": fields["price"],
-            "quantity": fields["quantity"],
-        }
-    ]
-    return {seller["name"]: offers}
+
+    return offer
 
 
-def _interpret_product_table(product_name: str, table: list[list]) -> dict[str, list]:
-    product_by_sellers: dict[str, list] = {}
+def _interpret_product_offers_table(product_name: str, table: list[list]) -> list:
+    offers: list = []
     for row in table:
-        product = _interpret_product_row(product_name, row)
-        seller = list(product)[0]
-        if seller in product_by_sellers:
-            product_by_sellers[seller].extend(product[seller])
-        else:
-            product_by_sellers[seller] = product[seller]
+        offer = _interpret_product_offers_row(product_name, row)
+        offers.append(offer)
 
-    return product_by_sellers
+    return offers
 
 
 def get_product_offers_use_case(
     client,
     product: products.ProductEntity,
 ):
-    raw_product_table = _get_product_table(client, product.url)
-    product_by_sellers = _interpret_product_table(
+    raw_product_offers_table = _get_product_offers_table(client, product.url)
+    offers = _interpret_product_offers_table(
         product.name,
-        raw_product_table,
+        raw_product_offers_table,
     )
-    return product_by_sellers
+    return offers
 
 
 def get_multiproduct_offers_use_case(
@@ -100,7 +92,7 @@ def get_multiproduct_offers_use_case(
                 client,
                 product,
             )
-            multiproduct_offers.append(product_offers)
+            multiproduct_offers.extend(product_offers)
             time.sleep(SLEEP_TIME)
     except Exception as exc:
         sys.exit(" ".join(exc.args))
