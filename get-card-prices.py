@@ -16,14 +16,12 @@ def main():
     dotenv.load_dotenv()
     client = Client()
     product_name = "blooming marsh"
-    expansion_repo = ExpansionRepository()
     expansion_id = ExpansionId.OTJ
 
     try:
         product = use_cases.search_product(
             client,
             product_name,
-            expansion_repo,
             expansion_id,
             should_raise=True,
         )
