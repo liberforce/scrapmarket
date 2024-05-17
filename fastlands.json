@@ -1,0 +1,52 @@
+[
+	{
+		"name": "Blackcleave Cliffs",
+		"extension": "ONE",
+		"wanted": 4
+	},
+	{
+		"name": "Copperline Gorge",
+		"extension": "ONE",
+		"wanted": 4
+	},
+	{
+		"name": "Darkslick Shores",
+		"extension": "ONE",
+		"wanted": 0
+	},
+	{
+		"name": "Seachrome Coast",
+		"extension": "ONE",
+		"wanted": 4
+	},
+	{
+		"name": "Razorverge Thicket",
+		"extension": "ONE",
+		"wanted": 4
+	},
+	{
+		"name": "Blooming Marsh",
+		"extension": "OTJ",
+		"wanted": 4
+	},
+	{
+		"name": "Botanical Sanctum",
+		"extension": "OTJ",
+		"wanted": 4
+	},
+	{
+		"name": "Concealed Courtyard",
+		"extension": "OTJ",
+		"wanted": 4
+	},
+	{
+		"name": "Inspiring Vantage",
+		"extension": "OTJ",
+		"wanted": 4
+	},
+	{
+		"name": "Spirebluff Canal",
+		"extension": "OTJ",
+		"wanted": 4
+	}
+]
