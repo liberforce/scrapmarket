@@ -16,7 +16,7 @@ class ProductEntity:
     unsafe_name: str = ""
     game = None
     _name = None
-    _url: str = None
+    _url: str | None = None
 
     @property
     def name(self) -> str:
