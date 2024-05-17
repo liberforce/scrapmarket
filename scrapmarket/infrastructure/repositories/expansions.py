@@ -41,4 +41,4 @@ class ExpansionRepository:
         return self._expansions
 
     def delete(self, expansion) -> None:
-        del self._expansion[expansion.id]
+        del self._expansions[expansion.id]
