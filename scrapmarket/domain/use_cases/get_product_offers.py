@@ -1,7 +1,10 @@
-from scrapmarket.domain.entities import products
-from bs4 import BeautifulSoup
 import re
-from .common import PAYLOAD, HEADERS
+
+from bs4 import BeautifulSoup
+
+from scrapmarket.domain.entities import products
+
+from .common import HEADERS, PAYLOAD
 
 
 def _get_product_table(client, url):

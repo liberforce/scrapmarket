@@ -1,13 +1,14 @@
 #! /bin/env python3
-from scrapmarket.domain import use_cases
-from pprint import pprint
-import dotenv
 import logging
-from scrapmarket.client import Client
 import sys
-from scrapmarket.infrastructure.repositories import ExpansionRepository
-from scrapmarket.domain.entities.expansions import ExpansionId
+from pprint import pprint
 
+import dotenv
+
+from scrapmarket.client import Client
+from scrapmarket.domain import use_cases
+from scrapmarket.domain.entities.expansions import ExpansionId
+from scrapmarket.infrastructure.repositories import ExpansionRepository
 
 logging.basicConfig(level=logging.INFO)
 

@@ -1,5 +1,7 @@
-from scrapmarket.domain.entities import products, expansions
-from scrapmarket.infrastructure.repositories.expansions import ExpansionRepository
+from scrapmarket.domain.entities import expansions, products
+from scrapmarket.infrastructure.repositories.expansions import \
+    ExpansionRepository
+
 from .common import HEADERS
 
 

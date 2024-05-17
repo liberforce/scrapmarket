@@ -1,5 +1,6 @@
-from scrapmarket.domain.entities import ExpansionEntity, ExpansionId
 import datetime
+
+from scrapmarket.domain.entities import ExpansionEntity, ExpansionId
 
 EXPANSIONS = [
     {
