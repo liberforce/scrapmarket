@@ -1,7 +1,6 @@
 import re
 
 from bs4 import BeautifulSoup
-
 from scrapmarket.domain.entities import products
 
 from .common import HEADERS, PAYLOAD
@@ -61,8 +60,8 @@ def _interpret_product_row(product_name: str, row: list) -> dict[str, list]:
     return {seller["name"]: offers}
 
 
-def _interpret_product_table(product_name: str, table: list[list]) -> dict[dict, list]:
-    product_by_sellers = {}
+def _interpret_product_table(product_name: str, table: list[list]) -> dict[str, list]:
+    product_by_sellers: dict[str, list] = {}
     for row in table:
         product = _interpret_product_row(product_name, row)
         seller = list(product)[0]
