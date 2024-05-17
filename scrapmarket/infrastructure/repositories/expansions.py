@@ -32,8 +32,8 @@ class ExpansionRepository:
             for exp in EXPANSIONS
         }
 
-    def get_by_id(self, id: ExpansionId) -> ExpansionEntity | None:
-        return self._expansions.get(id)
+    def get_by_id(self, id: ExpansionId) -> ExpansionEntity:
+        return self._expansions[id]
 
     def insert(self, expansion: ExpansionEntity) -> ExpansionEntity:
         if expansion.id not in self._expansions:

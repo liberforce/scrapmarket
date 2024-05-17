@@ -8,7 +8,7 @@ from .common import HEADERS
 def search_product_use_case(
     client,
     unsafe_product_name: str,
-    expansion_id: expansions.ExpansionId = None,
+    expansion_id: expansions.ExpansionId,
     should_raise=False,
 ) -> products.ProductEntity | None:
     expansion_repo = ExpansionRepository()
