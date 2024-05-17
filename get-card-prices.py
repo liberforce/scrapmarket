@@ -1,13 +1,11 @@
 #! /bin/env python3
+import json
 import logging
-import sys
-from pprint import pprint
 
 import dotenv
 
 from scrapmarket.client import Client
 from scrapmarket.domain import use_cases
-from scrapmarket.domain.entities.expansions import ExpansionId
 
 logging.basicConfig(level=logging.INFO)
 
@@ -15,24 +13,17 @@ logging.basicConfig(level=logging.INFO)
 def main():
     dotenv.load_dotenv()
     client = Client()
-    product_name = "blooming marsh"
-    expansion_id = ExpansionId.OTJ
 
-    try:
-        product = use_cases.search_product(
-            client,
-            product_name,
-            expansion_id,
-            should_raise=True,
-        )
-        offers = use_cases.get_product_offers(
-            client,
-            product,
-        )
-    except Exception as exc:
-        sys.exit(exc.message)
+    with open("fastlands.json") as fp:
+        products_data = json.load(fp)
 
-    pprint(offers)
+    products = use_cases.search_products(client, products_data)
+    assert all(products), products
+
+    multiproduct_offers = use_cases.get_multiproduct_offers(client, products)
+
+    with open("fastlands-offers.json", "w") as fp:
+        json.dump(multiproduct_offers, fp)
 
 
 if __name__ == "__main__":

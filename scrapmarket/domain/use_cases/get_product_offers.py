@@ -1,9 +1,12 @@
 import re
+import sys
+import time
 
 from bs4 import BeautifulSoup
+from scrapmarket.client import Client
 from scrapmarket.domain.entities import products
 
-from .common import HEADERS, PAYLOAD
+from .common import HEADERS, PAYLOAD, SLEEP_TIME
 
 
 def _get_product_table(client, url):
@@ -83,3 +86,23 @@ def get_product_offers_use_case(
         raw_product_table,
     )
     return product_by_sellers
+
+
+def get_multiproduct_offers_use_case(
+    client: Client,
+    products: list[products.ProductEntity],
+) -> list:
+    multiproduct_offers = []
+
+    try:
+        for product in products:
+            product_offers = get_product_offers_use_case(
+                client,
+                product,
+            )
+            multiproduct_offers.append(product_offers)
+            time.sleep(SLEEP_TIME)
+    except Exception as exc:
+        sys.exit(" ".join(exc.args))
+
+    return multiproduct_offers

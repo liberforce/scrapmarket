@@ -1,12 +1,16 @@
+import time
+
+from scrapmarket.client import Client
 from scrapmarket.domain.entities import expansions, products
+from scrapmarket.domain.entities.expansions import ExpansionId
 from scrapmarket.infrastructure.repositories.expansions import \
     ExpansionRepository
 
-from .common import HEADERS
+from .common import HEADERS, SLEEP_TIME
 
 
 def search_product_use_case(
-    client,
+    client: Client,
     unsafe_product_name: str,
     expansion_id: expansions.ExpansionId,
     should_raise=False,
@@ -29,3 +33,25 @@ def search_product_use_case(
             return None
 
     return product
+
+
+def search_products_use_case(
+    client: Client,
+    products: list[dict],
+    should_raise=False,
+):
+    product_entities = []
+
+    for product in products:
+        product_name = product["name"]
+        expansion_id = getattr(ExpansionId, product["extension"])
+        product_entity = search_product_use_case(
+            client,
+            product_name,
+            expansion_id,
+            should_raise=should_raise,
+        )
+        product_entities.append(product_entity)
+        time.sleep(SLEEP_TIME)
+
+    return product_entities

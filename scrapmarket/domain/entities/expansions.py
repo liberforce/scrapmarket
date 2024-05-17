@@ -22,7 +22,13 @@ class ExpansionEntity:
     # Full name suitable for urls
     @property
     def escaped_name(self) -> str:
-        return self.name.replace(" ", "-")
+        translation_table = str.maketrans(
+            {
+                " ": "-",
+                ":": "-",
+            }
+        )
+        return self.name.translate(translation_table).replace("--", "-")
 
     # Number of cards
     n_cards: int

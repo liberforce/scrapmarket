@@ -19,3 +19,4 @@ HEADERS = {
     "Sec-Fetch-Site": "same-origin",
     "TE": "trailers",
 }
+SLEEP_TIME = 5
