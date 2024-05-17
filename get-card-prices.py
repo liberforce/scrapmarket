@@ -6,6 +6,7 @@ import logging
 from scrapmarket.client import Client
 import sys
 from scrapmarket.infrastructure.repositories import ExpansionRepository
+from scrapmarket.domain.entities.expansions import ExpansionId
 
 
 logging.basicConfig(level=logging.INFO)
@@ -14,19 +15,26 @@ logging.basicConfig(level=logging.INFO)
 def main():
     dotenv.load_dotenv()
     client = Client()
-    product_name = "tribal golem"
-    repo = ExpansionRepository()
+    product_name = "blooming marsh"
+    expansion_repo = ExpansionRepository()
+    expansion_id = ExpansionId.OTJ
 
     try:
-        product_by_sellers = use_cases.get_product_offers(
+        product = use_cases.search_product(
             client,
-            repo,
             product_name,
+            expansion_repo,
+            expansion_id,
+            should_raise=True,
+        )
+        offers = use_cases.get_product_offers(
+            client,
+            product,
         )
     except Exception as exc:
         sys.exit(exc.message)
 
-    pprint(product_by_sellers)
+    pprint(offers)
 
 
 if __name__ == "__main__":

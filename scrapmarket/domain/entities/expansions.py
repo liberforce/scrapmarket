@@ -5,10 +5,12 @@ import datetime
 
 class ExpansionId(Enum):
     ONS = "Onslaught"
+    OTJ = "Outlaws of Thunder Junction"
+    ONE = "Phyrexia: All Will Be One"
 
 
 @dataclass
-class Expansion:
+class ExpansionEntity:
     # Id of the expansion set
     id: ExpansionId
 
@@ -16,6 +18,11 @@ class Expansion:
     @property
     def name(self) -> str:
         return self.id.value
+
+    # Full name suitable for urls
+    @property
+    def escaped_name(self) -> str:
+        return self.name.replace(" ", "-")
 
     # Number of cards
     n_cards: int
