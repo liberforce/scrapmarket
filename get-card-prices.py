@@ -8,7 +8,6 @@ import dotenv
 from scrapmarket.client import Client
 from scrapmarket.domain import use_cases
 from scrapmarket.domain.entities.expansions import ExpansionId
-from scrapmarket.infrastructure.repositories import ExpansionRepository
 
 logging.basicConfig(level=logging.INFO)
 
