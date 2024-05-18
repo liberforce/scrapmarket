@@ -7,17 +7,21 @@ from .games import GameEntity
 
 class ProductType(Enum):
     CARD = "Singles"
+    BOOSTER = "Boosters"
 
 
 @dataclass
 class ProductEntity:
-    type: ProductType
+    # FIXME: find out how to declare a product type here so it's defined in child classes
     expansion: ExpansionEntity
     unsafe_name: str = ""
     game = None
-    is_foil: bool = False
     _name = None
     _url: str | None = None
+
+    @property
+    def escaped_type(self):
+        return self.type_.value
 
     @property
     def name(self) -> str:
@@ -45,17 +49,36 @@ class ProductEntity:
         self,
         game: GameEntity | None = None,
     ) -> str:
+        raise NotImplementedError
+
+
+@dataclass
+class CardEntity(ProductEntity):
+    class CardCondition(Enum):
+        MT = "Mint"
+        NM = "Near Mint"
+        EX = "Excellent"
+        GD = "Good"
+        LP = "Light Played"
+        PL = "Played"
+        PO = "Poor"
+
+    condition: CardCondition | None = None
+    is_foil: bool = False
+    type = ProductType.CARD
+
+    def guess_url(
+        self,
+        game: GameEntity | None = None,
+    ) -> str:
         if game is None:
             game = GameEntity()
 
-        if self.type == ProductType.CARD:
-            return (
-                f"https://www.cardmarket.com/en"
-                f"/{game.name.value}"
-                f"/Products"
-                f"/{self.type.value}"
-                f"/{self.expansion.escaped_name}"
-                f"/{self.escaped_name}"
-            )
-
-        raise Exception  # TODO: customize exceptions
+        return (
+            f"https://www.cardmarket.com/en"
+            f"/{game.name.value}"
+            f"/Products"
+            f"/{self.type.value}"
+            f"/{self.expansion.escaped_name}"
+            f"/{self.escaped_name}"
+        )
