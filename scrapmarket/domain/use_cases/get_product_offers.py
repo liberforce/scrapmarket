@@ -9,14 +9,8 @@ from scrapmarket.domain.entities import products
 from .common import HEADERS, PAYLOAD, SLEEP_TIME
 
 
-def _get_product_offers_table(client, url):
-    method = "GET"
-    response = client.send_request(method, url, headers=HEADERS, params=PAYLOAD)
-
-    if response.status_code != 200:
-        raise Exception(f"{response.status_code}: {method} {url}")
-
-    soup = BeautifulSoup(response.text, features="html.parser")
+def _get_product_offers_table(client: Client, text: str):
+    soup = BeautifulSoup(text, features="html.parser")
     soup_rows = soup.find_all(id=re.compile(r"articleRow\d+"))
 
     rows = []
@@ -69,7 +63,15 @@ def get_product_offers_use_case(
     client,
     product: products.ProductEntity,
 ):
-    raw_product_offers_table = _get_product_offers_table(client, product.url)
+    method = "GET"
+    params = PAYLOAD.copy()
+    params["isFoil"] = "Y" if product.is_foil else "N"
+    response = client.send_request(method, product.url, headers=HEADERS, params=params)
+
+    if response.status_code != 200:
+        raise Exception(f"{response.status_code}: {method} {product.url}")
+
+    raw_product_offers_table = _get_product_offers_table(client, response.text)
     offers = _interpret_product_offers_table(
         product.name,
         raw_product_offers_table,

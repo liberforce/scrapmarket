@@ -15,6 +15,7 @@ class ProductEntity:
     expansion: ExpansionEntity
     unsafe_name: str = ""
     game = None
+    is_foil: bool = False
     _name = None
     _url: str | None = None
 

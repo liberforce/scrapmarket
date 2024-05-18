@@ -1,4 +1,6 @@
-PAYLOAD = {
+from typing import Any
+
+PAYLOAD: dict[str, Any] = {
     "sellerCountry": 12,
     "language": 2,
     "minCondition": 2,
