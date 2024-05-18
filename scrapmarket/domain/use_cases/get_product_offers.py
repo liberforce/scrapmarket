@@ -11,15 +11,12 @@ from .common import HEADERS, PAYLOAD, SLEEP_TIME
 
 def _get_product_offers_table(client, url):
     method = "GET"
-    result = client.send_request(method, url, headers=HEADERS, params=PAYLOAD)
+    response = client.send_request(method, url, headers=HEADERS, params=PAYLOAD)
 
-    if result.status_code != 200:
-        raise Exception(f"{result.status_code}: {method} {url}")
+    if response.status_code != 200:
+        raise Exception(f"{response.status_code}: {method} {url}")
 
-    with open("result.html", "w") as f:
-        f.write(result.text)
-
-    soup = BeautifulSoup(result.text, features="html.parser")
+    soup = BeautifulSoup(response.text, features="html.parser")
     soup_rows = soup.find_all(id=re.compile(r"articleRow\d+"))
 
     rows = []
