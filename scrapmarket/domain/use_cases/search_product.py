@@ -75,7 +75,7 @@ def search_products_use_case(
         if product_type == "card":
             product_name = product["name"]
             expansion_id = getattr(ExpansionId, product["extension"])
-            is_foil = product["foil"]
+            is_foil = product.get("foil", False)
             card_entity = search_card_use_case(
                 client,
                 product_name,
