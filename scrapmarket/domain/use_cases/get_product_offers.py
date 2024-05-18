@@ -65,6 +65,7 @@ def get_product_offers_use_case(
 ):
     method = "GET"
     params = PAYLOAD.copy()
+    # FIXME: foilness is only for card product types
     params["isFoil"] = "Y" if product.is_foil else "N"
     response = client.send_request(method, product.url, headers=HEADERS, params=params)
 
