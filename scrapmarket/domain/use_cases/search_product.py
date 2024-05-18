@@ -7,6 +7,7 @@ from scrapmarket.infrastructure.repositories.expansions import \
     ExpansionRepository
 
 from .common import HEADERS, SLEEP_TIME
+from .errors import UnsupportedProductError
 
 
 def search_product_use_case(
@@ -82,6 +83,9 @@ def search_products_use_case(
                 is_foil=is_foil,
                 should_raise=should_raise,
             )
+        else:
+            raise UnsupportedProductError(product_type)
+
         product_entities.append(card_entity)
         time.sleep(SLEEP_TIME)
 
