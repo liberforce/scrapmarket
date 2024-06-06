@@ -34,8 +34,7 @@ def _interpret_product_offers_row(product_name: str, row: list) -> dict:
     fields["seller_name"] = row.pop(0)
     fields["grading"] = row.pop(0)
     assert fields["grading"] in [cc.name for cc in products.CardEntity.CardCondition]
-    fields["quantity"] = row.pop(-1)
-    assert fields["quantity"].isdigit()
+    fields["quantity"] = int(row.pop(-1))
     price, currency = row.pop(-1).split(" ")
     fields["price"] = float(price.replace(",", "."))
     assert "€" in currency
