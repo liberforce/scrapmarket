@@ -24,6 +24,14 @@ def get_cmdline_args():
         "wishlist",
         help="The file containing the wished products",
     )
+    parser.add_argument(
+        "--force",
+        "-f",
+        help="Force refreshing the offers cache",
+        default=False,
+        dest="refresh",
+        action="store_true",
+    )
     return parser.parse_args()
 
 
@@ -46,6 +54,12 @@ def main():
         offers_dirpath,
         os.path.basename(args.wishlist),
     )
+
+    if args.refresh:
+        try:
+            os.remove(offers_filepath)
+        except FileNotFoundError:
+            pass
 
     if not os.path.exists(offers_filepath):
         products = use_cases.search_products(client, wishlist, should_raise=True)
