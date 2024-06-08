@@ -20,8 +20,8 @@ def take(n, iterable):
 def get_cmdline_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "product_filename",
-        help="The file containing the product information",
+        "wishlist",
+        help="The file containing the wished products",
     )
     return parser.parse_args()
 
@@ -32,10 +32,10 @@ def main():
     products = []
     args = get_cmdline_args()
 
-    with open(args.product_filename) as fp:
+    with open(args.wishlist) as fp:
         products_data = json.load(fp)
 
-    base, ext = os.path.splitext(args.product_filename)
+    base, ext = os.path.splitext(args.wishlist)
     offers_filename = f"{base}-offers{ext}"
 
     if not os.path.exists(offers_filename):
