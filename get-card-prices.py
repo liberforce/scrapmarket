@@ -6,6 +6,7 @@ import os.path
 from itertools import islice
 
 import dotenv
+from xdg_base_dirs import xdg_cache_home
 
 from scrapmarket.client import Client
 from scrapmarket.domain import use_cases
@@ -33,21 +34,29 @@ def main():
     args = get_cmdline_args()
 
     with open(args.wishlist) as fp:
-        products_data = json.load(fp)
+        wishlist = json.load(fp)
 
-    base, ext = os.path.splitext(args.wishlist)
-    offers_filename = f"{base}-offers{ext}"
+    offers_dirpath = os.path.join(
+        xdg_cache_home(),
+        "scrapmarket",
+        "offers",
+    )
+    os.makedirs(offers_dirpath, exist_ok=True)
+    offers_filepath = os.path.join(
+        offers_dirpath,
+        os.path.basename(args.wishlist),
+    )
 
-    if not os.path.exists(offers_filename):
-        products = use_cases.search_products(client, products_data, should_raise=True)
+    if not os.path.exists(offers_filepath):
+        products = use_cases.search_products(client, wishlist, should_raise=True)
         assert all(products), products
 
         multiproduct_offers = use_cases.get_multiproduct_offers(client, products)
 
-        with open(offers_filename, "w") as fp:
+        with open(offers_filepath, "w") as fp:
             json.dump(multiproduct_offers, fp, indent=4, sort_keys=True)
     else:
-        with open(offers_filename, "r") as fp:
+        with open(offers_filepath, "r") as fp:
             multiproduct_offers = json.load(fp)
 
     # Get offers for each product, sorted by best offer
