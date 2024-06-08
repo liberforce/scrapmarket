@@ -8,6 +8,7 @@ requests = "*"
 python-dotenv = "*"
 requests-oauthlib = "*"
 beautifulsoup4 = "*"
+xdg-base-dirs = "*"
 
 [dev-packages]
 black = "*"
