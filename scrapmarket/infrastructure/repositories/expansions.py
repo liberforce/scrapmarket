@@ -18,6 +18,16 @@ EXPANSIONS = [
         "n_cards": 479,
         "release_date": "2023-02-03",
     },
+    {
+        "id": ExpansionId.LCI,
+        "n_cards": 416,
+        "release_date": "2023-11-17",
+    },
+    {
+        "id": ExpansionId.MKM,
+        "n_cards": 450,
+        "release_date": "2024-02-09",
+    },
 ]
 
 

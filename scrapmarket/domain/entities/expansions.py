@@ -7,6 +7,8 @@ class ExpansionId(Enum):
     ONS = "Onslaught"
     OTJ = "Outlaws of Thunder Junction"
     ONE = "Phyrexia: All Will Be One"
+    LCI = "The Lost Caverns of Ixalan"
+    MKM = "Murders at Karlov Manor"
 
 
 @dataclass
