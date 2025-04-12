@@ -5,10 +5,13 @@ from enum import Enum
 
 class ExpansionId(Enum):
     ONS = "Onslaught"
-    OTJ = "Outlaws of Thunder Junction"
+    KHM = "Kaldheim"
+    MID = "Innistrad: Midnight Hunt"
+    VOW = "Innistrad: Crimson Vow"
     ONE = "Phyrexia: All Will Be One"
     LCI = "The Lost Caverns of Ixalan"
     MKM = "Murders at Karlov Manor"
+    OTJ = "Outlaws of Thunder Junction"
 
 
 @dataclass

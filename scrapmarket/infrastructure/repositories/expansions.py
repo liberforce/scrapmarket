@@ -9,6 +9,21 @@ EXPANSIONS = [
         "release_date": "2002-10-07",
     },
     {
+        "id": ExpansionId.KHM,
+        "n_cards": 426,
+        "release_date": "2021-02-05",
+    },
+    {
+        "id": ExpansionId.MID,
+        "n_cards": 400,
+        "release_date": "2021-09-24",
+    },
+    {
+        "id": ExpansionId.VOW,
+        "n_cards": 423,
+        "release_date": "2021-11-19",
+    },
+    {
         "id": ExpansionId.OTJ,
         "n_cards": 374,
         "release_date": "2024-04-19",
