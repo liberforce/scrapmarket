@@ -1,0 +1,27 @@
+[
+	{
+		"name": "Replicating Ring",
+		"expansion": "KHM",
+		"foil": false,
+		"wanted": 2
+	},
+	{
+		"name": "Voldaren Epicure",
+		"expansion": "VOW",
+		"foil": false,
+		"wanted": 2
+	},
+	{
+		"name": "Cathartic Pyre",
+		"expansion": "MID",
+		"foil": false,
+		"wanted": 4
+	},
+	{
+		"name": "Obsessive Astronomer",
+		"expansion": "MID",
+		"foil": true,
+		"wanted": 2
+	}
+
+]
