@@ -1,6 +1,7 @@
 import re
 import sys
 import time
+import typing
 
 from bs4 import BeautifulSoup
 from scrapmarket.client import Client
@@ -67,9 +68,17 @@ def get_product_offers_use_case(
 ):
     method = "GET"
     params = PAYLOAD.copy()
-    # FIXME: foilness is only for card product types
-    params["isFoil"] = "Y" if product.is_foil else "N"
-    response = client.send_request(method, product.url, headers=HEADERS, params=params)
+
+    if product.type == products.ProductType.CARD:
+        card = typing.cast(products.CardEntity, product)
+        params["isFoil"] = "Y" if card.is_foil else "N"
+
+    response = client.send_request(
+        method,
+        product.url,
+        headers=HEADERS,
+        params=params,
+    )
 
     if response.status_code != 200:
         raise Exception(f"{response.status_code}: {method} {product.url}")
