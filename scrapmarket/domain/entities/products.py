@@ -1,3 +1,4 @@
+from abc import ABC
 from dataclasses import dataclass
 from enum import Enum
 
@@ -11,17 +12,19 @@ class ProductType(Enum):
 
 
 @dataclass
-class ProductEntity:
-    # FIXME: find out how to declare a product type here so it's defined in child classes
+class ProductEntity(ABC):
     expansion: ExpansionEntity
     unsafe_name: str = ""
     game = None
     _name = None
     _url: str | None = None
 
+    # Product type will be set in child classes
+    type: ProductType | None = None
+
     @property
     def escaped_type(self):
-        return self.type_.value
+        return self.type.value
 
     @property
     def name(self) -> str:
@@ -65,7 +68,7 @@ class CardEntity(ProductEntity):
 
     condition: CardCondition | None = None
     is_foil: bool = False
-    type = ProductType.CARD
+    type: ProductType = ProductType.CARD
 
     def guess_url(
         self,
