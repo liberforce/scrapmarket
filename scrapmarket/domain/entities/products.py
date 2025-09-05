@@ -43,7 +43,7 @@ class ProductEntity:
 
     @property
     def escaped_name(self):
-        return self.name.replace(" ", "-")
+        return self.name.replace(" ", "-").replace(",", "")
 
     def guess_url(
         self,
