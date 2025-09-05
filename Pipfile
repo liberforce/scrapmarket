@@ -9,6 +9,7 @@ python-dotenv = "*"
 requests-oauthlib = "*"
 beautifulsoup4 = "*"
 xdg-base-dirs = "*"
+tabulate = "*"
 
 [dev-packages]
 black = "*"
