@@ -4,3 +4,11 @@ class ProductError(Exception):
 
 class UnsupportedProductError(ProductError):
     pass
+
+
+class ExpansionError(Exception):
+    pass
+
+
+class ExpansionNotFoundError(ExpansionError):
+    pass

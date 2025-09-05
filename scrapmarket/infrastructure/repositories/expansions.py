@@ -9,6 +9,11 @@ EXPANSIONS = [
         "release_date": "2002-10-07",
     },
     {
+        "id": ExpansionId.DOM,
+        "n_cards": 280,
+        "release_date": "2018-04-27",
+    },
+    {
         "id": ExpansionId.KHM,
         "n_cards": 426,
         "release_date": "2021-02-05",

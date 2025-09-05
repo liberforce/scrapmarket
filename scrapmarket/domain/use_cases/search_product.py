@@ -7,7 +7,7 @@ from scrapmarket.infrastructure.repositories.expansions import \
     ExpansionRepository
 
 from .common import HEADERS, SLEEP_TIME
-from .errors import UnsupportedProductError
+from .errors import ExpansionNotFoundError, UnsupportedProductError
 
 
 def search_product_use_case(
@@ -72,9 +72,17 @@ def search_products_use_case(
     for product in products:
         product_type = product.get("type", "card")
 
+        if product_type not in ["card"]:
+            raise UnsupportedProductError(product_type)
+
         if product_type == "card":
             product_name = product["name"]
-            expansion_id = getattr(ExpansionId, product["expansion"])
+            expansion = product["expansion"]
+            try:
+                expansion_id = getattr(ExpansionId, expansion)
+            except:
+                raise ExpansionNotFoundError(expansion)
+
             is_foil = product.get("foil", False)
             card_entity = search_card_use_case(
                 client,
@@ -83,8 +91,6 @@ def search_products_use_case(
                 is_foil=is_foil,
                 should_raise=should_raise,
             )
-        else:
-            raise UnsupportedProductError(product_type)
 
         product_entities.append(card_entity)
         time.sleep(SLEEP_TIME)

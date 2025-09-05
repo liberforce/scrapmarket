@@ -5,6 +5,7 @@ from enum import Enum
 
 class ExpansionId(Enum):
     ONS = "Onslaught"
+    DOM = "Dominaria"
     KHM = "Kaldheim"
     MID = "Innistrad: Midnight Hunt"
     VOW = "Innistrad: Crimson Vow"
