@@ -8,8 +8,8 @@ from itertools import islice
 import dotenv
 from xdg_base_dirs import xdg_cache_home
 
+from scrapmarket import use_cases
 from scrapmarket.client import Client
-from scrapmarket.domain import use_cases
 
 logging.basicConfig(level=logging.INFO)
 
