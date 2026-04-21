@@ -1,9 +1,9 @@
 #! /bin/env python3
 import argparse
+import itertools
 import json
 import logging
 import os.path
-from itertools import islice
 
 import dotenv
 from xdg_base_dirs import xdg_cache_home
@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 def take(n, iterable):
-    return islice(iterable, n)
+    return itertools.islice(iterable, n)
 
 
 def get_cmdline_args():
