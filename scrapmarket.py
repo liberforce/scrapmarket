@@ -110,7 +110,7 @@ def main():
     present_sellers_with_most_offers(
         sellers_by_n_offers,
         top,
-        PresentationFormat.JSON,
+        PresentationFormat.TABLE,
     )
 
 
