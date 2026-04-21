@@ -31,6 +31,14 @@ def get_cmdline_args():
         dest="refresh",
         action="store_true",
     )
+    parser.add_argument(
+        "--output",
+        "-o",
+        help="Output format",
+        default="table",
+        dest="output_format",
+        choices=list(i.value for i in PresentationFormat),
+    )
     return parser.parse_args()
 
 
@@ -110,7 +118,7 @@ def main():
     present_sellers_with_most_offers(
         sellers_by_n_offers,
         top,
-        PresentationFormat.TABLE,
+        PresentationFormat(args.output_format),
     )
 
 
