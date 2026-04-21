@@ -1,6 +1,5 @@
 #! /bin/env python3
 import argparse
-import itertools
 import json
 import logging
 import os.path
@@ -9,13 +8,13 @@ import dotenv
 from xdg_base_dirs import xdg_cache_home
 
 from scrapmarket import use_cases
+from scrapmarket.adapters.cli_presenter import (
+    PresentationFormat,
+    present_sellers_with_most_offers,
+)
 from scrapmarket.client import Client
 
 logging.basicConfig(level=logging.INFO)
-
-
-def take(n, iterable):
-    return itertools.islice(iterable, n)
 
 
 def get_cmdline_args():
@@ -103,14 +102,16 @@ def main():
     sellers_by_n_offers = dict(sorted(sellers_by_n_offers.items(), reverse=True))
 
     top = 5
-    print(f"# Top {top} Sellers with the most offers:")
-    print(json.dumps(dict(take(top, sellers_by_n_offers.items())), indent=4))
 
     sellers_by_n_offers: dict[int, str] = {}
     for seller, n_offers in n_offers_by_seller.items():
         sellers_by_n_offers.setdefault(n_offers, list()).append(seller)
 
-    # print(json.dumps(sellers_by_n_offers, indent=4))
+    present_sellers_with_most_offers(
+        sellers_by_n_offers,
+        top,
+        PresentationFormat.JSON,
+    )
 
 
 if __name__ == "__main__":
