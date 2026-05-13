@@ -2,7 +2,7 @@
 import argparse
 import json
 import logging
-import os.path
+from pathlib import Path
 
 import dotenv
 from xdg_base_dirs import xdg_cache_home
@@ -48,36 +48,28 @@ def main():
     products = []
     args = get_cmdline_args()
 
-    with open(args.wishlist) as fp:
+    wishlist_file = Path(args.wishlist)
+
+    with wishlist_file.open() as fp:
         wishlist = json.load(fp)
 
-    offers_dirpath = os.path.join(
-        xdg_cache_home(),
-        "scrapmarket",
-        "offers",
-    )
-    os.makedirs(offers_dirpath, exist_ok=True)
-    offers_filepath = os.path.join(
-        offers_dirpath,
-        os.path.basename(args.wishlist),
-    )
+    offers_dir = Path(xdg_cache_home(), "scrapmarket", "offers")
+    offers_dir.mkdir(parents=True, exist_ok=True)
+    offers_file = offers_dir.joinpath(wishlist_file.name)
 
     if args.refresh:
-        try:
-            os.remove(offers_filepath)
-        except FileNotFoundError:
-            pass
+        offers_file.unlink(missing_ok=True)
 
-    if not os.path.exists(offers_filepath):
+    if not offers_file.exists():
         products = use_cases.search_products(client, wishlist, should_raise=True)
         assert all(products), products
 
         multiproduct_offers = use_cases.get_multiproduct_offers(client, products)
 
-        with open(offers_filepath, "w") as fp:
+        with offers_file.open("w") as fp:
             json.dump(multiproduct_offers, fp, indent=4, sort_keys=True)
     else:
-        with open(offers_filepath, "r") as fp:
+        with offers_file.open("r") as fp:
             multiproduct_offers = json.load(fp)
 
     # Get offers for each product, sorted by best offer
