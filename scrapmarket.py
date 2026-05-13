@@ -42,10 +42,25 @@ def get_cmdline_args():
     return parser.parse_args()
 
 
+def get_multiproduct_offers(client, offers_file, wishlist) -> list:
+    if not offers_file.exists():
+        products = use_cases.search_products(client, wishlist, should_raise=True)
+        assert all(products), products
+
+        multiproduct_offers = use_cases.get_multiproduct_offers(client, products)
+
+        with offers_file.open("w") as fp:
+            json.dump(multiproduct_offers, fp, indent=4, sort_keys=True)
+    else:
+        with offers_file.open("r") as fp:
+            multiproduct_offers = json.load(fp)
+
+    return multiproduct_offers
+
+
 def main():
     dotenv.load_dotenv()
     client = Client()
-    products = []
     args = get_cmdline_args()
 
     wishlist_file = Path(args.wishlist)
@@ -60,17 +75,7 @@ def main():
     if args.refresh:
         offers_file.unlink(missing_ok=True)
 
-    if not offers_file.exists():
-        products = use_cases.search_products(client, wishlist, should_raise=True)
-        assert all(products), products
-
-        multiproduct_offers = use_cases.get_multiproduct_offers(client, products)
-
-        with offers_file.open("w") as fp:
-            json.dump(multiproduct_offers, fp, indent=4, sort_keys=True)
-    else:
-        with offers_file.open("r") as fp:
-            multiproduct_offers = json.load(fp)
+    multiproduct_offers = get_multiproduct_offers(client, offers_file, wishlist)
 
     # Get offers for each product, sorted by best offer
     offers_by_product = {}
