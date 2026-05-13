@@ -108,7 +108,7 @@ def main():
 
     top = 5
 
-    sellers_by_n_offers: dict[int, str] = {}
+    sellers_by_n_offers = {}
     for seller, n_offers in n_offers_by_seller.items():
         sellers_by_n_offers.setdefault(n_offers, list()).append(seller)
 
